@@ -3,19 +3,23 @@
  */
 ;(function (angular) {
     var app = angular.module('app',['ui.router']);
-    app.controller('appController',['$scope','$stateParams',function ($scope,$stateParams) {
+    app.controller('appController',['$scope','$location',function ($scope,$location) {
         $scope.title = '今日一刻';
         $scope.isNav = false;//记录是否点击了导航图标
         $scope.click = function (type) {//导航栏点击时切换顶部文字
             $scope.title = type;
+            $scope.isNav = !$scope.isNav;
         };
-        //当导航按钮点击时,判断当前导航栏是存在还是不存在,存在就隐藏,隐藏就显示.
+        $scope.$location = $location;
+        $scope.$watch('$location.url()',function (newVal, oldVal) {
+            console.log(newVal, oldVal);
+        });
+
+
+        //当导航按钮点击时,判断当前导航栏是存在还是不存在,存在就隐藏,隐藏就显示(通过添加类名实现).
         $scope.nav = function () {
-            if($scope.isNav){
-                $scope.isNav = false;
-            }else{
-                $scope.isNav = true;
-            }
+            $scope.isNav = !$scope.isNav;
+            window.scrollTo(0,0);
         };
 
     }])
@@ -44,16 +48,20 @@
                     templateUrl:'view/home_tpl.html',
                     controller:'homeController'
                 },
-                author:{
-                    template:'author',
+                past:{
+                    // templateUrl:'view/home_tpl.html',
                     // controller:'homeController'
                 },
+                author:{
+/*                    templateUrl:'view/home_tpl.html',
+                    controller:'homeController'*/
+                },
                 content:{
-                    template:'content',
+                    // templateUrl:'view/home_tpl.html',
                     // controller:'homeController'
                 },
                 my:{
-                    template:'my',
+                    // templateUrl:'view/home_tpl.html',
                     // controller:'homeController'
                 }
             }
@@ -81,6 +89,15 @@
     angular.module('app').controller('homeController',['$scope','$state','myHttp',function ($scope,$state,myHttp) {
         //程序刚启动时,使其处于加载状态
         $scope.isLoading = true;
+        //程序刚启动时,详情页是否向右侧位移100%为真,就是默认隐藏在右侧.
+        $scope.isDetailCss = true;
+
+        $scope.$watch('$location.url()',function (newValue, oldValue) {
+            if( newValue != '/app/home'){
+                $scope.xxx = true;
+            }
+        });
+
         //定义用于反盗链的前缀地址
         $scope.fangdaolian = 'http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=';
         var args = {
@@ -104,13 +121,19 @@
  * Created by Administrator on 2017/4/9.
  */
 ;(function (angular) {
-    angular.module('app').directive('detail',function ($http) {
+    angular.module('app').directive('detail',['$timeout',function ($timeout) {
         return{
             restrict:'EA',
-            template:'<div id="detail-content"></div>',//添加id是为了给获取到的详情页加样式不冲突
+            template:'<div id="detail-content"  ng-class="{detailCss:isDetailCss}" ></div>',//添加id是为了给获取到的详情页加样式不冲突
             link:function ($scope, ele, attr) {
 /*总思路:因为获取到的详情内有图片,但是没有图片地址,每个详情页的图片第一个和最后一个都是作者头像,中间的图片与json数据内photo的数据一致,而且顺序也一致,所以有了以下逻辑*/
                 //0.一进入详情页,就将整个页面滚动到顶部
+                window.scrollTo(0,0);
+
+                //进入详情页时,添加定时器,等详情页已加载并将homelist替换后,过一定时间再去除位移类,就会有从右侧出现的动画效果.
+                $timeout(function () {
+                    $scope.isDetailCss = false;
+                },1);
                 //1.将获取到的html片段注入到指令内
                 ele.html($scope.listItem.content);
                 //2.获取所有的img标签
@@ -127,7 +150,7 @@
             },
             replace:true
         }
-    })
+    }])
 })(angular);
 
 /**
@@ -137,7 +160,7 @@
     angular.module('app').directive('homelist',function () {
         return{
             restrict:'EA',
-            templateUrl:'view/tpl/homelist_tpl.html'
+            templateUrl:'view/tpl/homelist_tpl.html',
         }
     })
 })(angular);
@@ -146,12 +169,12 @@
  * Created by Administrator on 2017/4/8.
  */
 ;(function (angular) {
-    angular.module('app').directive('nav',['$location',function ($location) {
+    angular.module('app').directive('nav',['$location','$timeout','$state',function ($location,$timeout,$state) {
         return{
             restrict:'EA',
             templateUrl:'view/tpl/nav_tpl.html',
             link:function ($scope, ele, attr) {
-                //初始时,显示导航,隐藏返回
+                //初始时,显示导航图标,隐藏返回图标
                 //监听锚点变化,当进入详情时,隐藏导航,显示返回
                 //返回图标点击时,历史回退,导航显示,返回隐藏
                 ele.find('img')[1].style.display='none';
@@ -166,7 +189,9 @@
                     window.history.back();
                     ele.find('img')[0].style.display='block';
                     ele.find('img')[1].style.display='none';
-                    window.scrollTo(0,0);
+                    $timeout(function () {
+                        $scope.isDetailCss = true;
+                    },1);
                 }
             }
 

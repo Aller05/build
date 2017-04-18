@@ -1,3 +1,6 @@
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
 /*把像素转成rem*/
 .fl {
   float: left;
@@ -415,39 +418,59 @@ p {
 }
 .nav span {
   width: 100%;
-  font-family: '微软雅黑';
   font-size: 0.53333333rem;
   margin-bottom: 0.26666667rem;
 }
-.tabbar {
-  line-height: 0.8rem;
-  background-color: #fff;
-  left: 0rem;
-  right: 0rem;
-  bottom: 0rem;
+#tabbar {
+  transition: all 1s;
+  display: inline-block;
+  height: 100%;
+  width: 60%;
+  background-color: #f2f2f2;
+  left: -60%;
+  top: 0rem;
+  padding: 0.4rem;
   position: fixed;
   z-index: 99999;
-  border-top: solid #ccc;
+  border-right: solid #e0e0e0;
   border-width: 0.02666667rem;
+  box-sizing: border-box;
+  box-shadow: -1px -5px 20px #c1c1c1 inset;
 }
-.tabbar ul {
+#tabbar ul {
   width: 100%;
   list-style: none;
 }
-.tabbar ul li {
-  width: 25%;
-  float: left;
-  text-align: center;
+#tabbar ul li:first-of-type {
+  height: 0.85333333rem;
+  padding-top: 0.53333333rem;
+  padding-bottom: 0.53333333rem;
 }
-.tabbar ul li img {
-  width: 0.58666667rem;
-  height: 0.58666667rem;
-  vertical-align: middle;
-  margin-top: 0.13333333rem;
+#tabbar ul li:first-of-type img {
+  width: 0.85333333rem;
+  height: 0.85333333rem;
 }
-.tabbar ul li span {
-  font-size: 0.42666667rem;
-  display: block;
+#tabbar ul li:first-of-type span {
+  color: #a3a3a3;
+  font-size: 0.37333333rem;
+  padding-left: 0.26666667rem;
+  line-height: 0.85333333rem;
+}
+#tabbar ul li {
+  width: 100%;
+  height: 0.66666667rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+#tabbar ul li img {
+  display: inline-block;
+  width: 0.66666667rem;
+  height: 0.66666667rem;
+  vertical-align: top;
+}
+#tabbar ul li span {
+  font-size: 0.48rem;
+  padding-left: 0.4rem;
 }
 .loading {
   -webkit-transform: translate(100%, 0);
@@ -465,7 +488,7 @@ p {
   width: 70%;
 }
 .homemain {
-  transition: all 0.8s;
+  transition: all 0.5s;
   background-color: #f9f9f9;
   padding-top: 1.6rem;
   box-sizing: border-box;
@@ -568,7 +591,16 @@ p {
   line-height: 0.64rem;
   color: #9c9c9c;
 }
+.detailCss {
+  -webkit-transform: translate(100%, 0);
+  -moz-transform: translate(100%, 0);
+  -ms-transform: translate(100%, 0);
+  -o-transform: translate(100%, 0);
+  transform: translate(100%, 0);
+}
 #detail-content {
+  transition: all 0.5s;
+  background: #f9f9f9;
   margin-top: 0.77333333rem;
   margin-bottom: 0.26666667rem;
   font-size: 0.58666667rem;
@@ -674,14 +706,16 @@ p {
   margin-bottom: 0.53333333rem !important;
 }
 #mainContent {
-  transition: all 1s;
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
 }
 .navClickMainContent {
-  position: fixed;
-  top: 0rem;
-  -webkit-transform: translate(50%, 0);
-  -moz-transform: translate(50%, 0);
-  -ms-transform: translate(50%, 0);
-  -o-transform: translate(50%, 0);
-  transform: translate(50%, 0);
+  z-index: -1;
+}
+#tabbar.tabbarIn {
+  left: 0!important;
+}
+.noscroll {
+  overflow: hidden;
 }

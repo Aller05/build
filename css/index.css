@@ -479,54 +479,60 @@ p {
   -o-transform: translate(100%, 0);
   transform: translate(100%, 0);
 }
-.home-loading {
-  margin-top: 1.33333333rem;
+/*.home-loading{
+  .mt(50);
   width: 100%;
   text-align: center;
-}
-.home-loading img {
-  width: 70%;
-}
-/*.home-loading{
-  .w(90);
-  .h(90);
+  img{
+    width: 70%;
+  }
+}*/
+.home-loading {
+  width: 2.4rem;
+  height: 2.4rem;
   position: absolute;
   top: 50%;
   left: 50%;
-  .mt(-30);
-  .ml(-45);
-  .double-bounce1, .double-bounce2{
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: #67CF22;
-    opacity: 0.6;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    -webkit-animation: bounce 2.0s infinite ease-in-out;
-    animation: bounce 2.0s infinite ease-in-out;
+  margin-top: -0.8rem;
+  margin-left: -1.2rem;
+}
+.home-loading .double-bounce1,
+.home-loading .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #12d5b5;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: bounce 2s infinite ease-in-out;
+  animation: bounce 2s infinite ease-in-out;
+}
+.home-loading .double-bounce2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+@-webkit-keyframes bounce {
+  0%,
+  100% {
+    -webkit-transform: scale(0);
   }
-  .double-bounce2 {
-    -webkit-animation-delay: -1.0s;
-    animation-delay: -1.0s;
+  50% {
+    -webkit-transform: scale(1);
   }
-  @-webkit-keyframes bounce {
-    0%, 100% { -webkit-transform: scale(0.0) }
-    50% { -webkit-transform: scale(1.0) }
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
   }
-
-  @keyframes bounce {
-    0%, 100% {
-      transform: scale(0.0);
-      -webkit-transform: scale(0.0);
-    } 50% {
-        transform: scale(1.0);
-        -webkit-transform: scale(1.0);
-      }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
   }
-}*/
+}
 .homemain {
   transition: all 0.5s;
   background-color: #f9f9f9;

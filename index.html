@@ -9,22 +9,24 @@
     <title>一刻</title>
     <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
     <link rel="stylesheet" href="css/index.css">
-
 </head>
-<body ng-class="{noscroll:(isNav||loginIn)}"
-      style= "overflow-x:hidden;"
-      ng-swipe-left="swipeLeft()">
+<body ng-class="{noscroll:(isNav||loginIn)}" ng-swipe-left="swipeLeft()">
 <!--下面是否添加的类,指的是当nav图标被点击时,是否添加那个类名(在index.less里)-->
 <nav></nav>
 <div id="mainContent" ng-swipe-right="swipeRight()">
     <div ng-show="title == '今日一刻'"  ui-view="home"></div>
     <div ng-show="title == '往期内容'"
          ui-view="past"
-         infinite-scroll='scrollaa()'
+         infinite-scroll='pastMore()'
          infinite-scroll-distance='0'
          infinite-scroll-immediate-check= 'false'
     ></div>
-    <div  ng-show="title == '热门作者' || title.indexOf('主页') != -1"  ui-view="author"></div>
+    <div  ng-show="title == '热门作者' || title.indexOf('主页') != -1"
+          ui-view="author"
+          infinite-scroll='authorListMore()'
+          infinite-scroll-distance='0'
+          infinite-scroll-immediate-check= 'false'
+    ></div>
     <div  ng-show="title == '栏目浏览'"  ui-view="content"></div>
     <div  ng-show="title == '我喜欢的'"  ui-view="my"></div>
 </div>
@@ -37,5 +39,6 @@
 <script src="lib/angular-ui-router.min.js"></script>
 <script src="lib/angular-touch.min.js"></script>
 <script src="lib/ng-infinite-scroll.min.js"></script>
+<script src="lib/angular-lazy-img.js"></script>
 <script src="js/index.js"></script>
 </html>
